@@ -1,5 +1,6 @@
 import { SEAL, applySealProperties, cssEasing } from "./seal.js";
 import { STRINGS, pickLang } from "./i18n.js";
+import { playMovie } from "./movie.js";
 
 const GRID = 8;
 const CELLS = GRID * GRID;
@@ -15,6 +16,7 @@ const els = {
   lang: document.getElementById("lang"),
   steps: document.getElementById("steps"),
   caption: document.getElementById("caption"),
+  app: document.querySelector(".app"),
   stage: document.getElementById("stage"),
   actions: document.getElementById("actions"),
 };
@@ -339,10 +341,11 @@ function startRun(id) {
 // ---------------------------------------------------------------------------
 // Phases
 
-const STEP_OF = { work: 0, stopped: 1, sealing: 2, sealed: 2, handoff: 3, second: 3, quiz: 4, done: 4 };
+const STEP_OF = { movie: -1, work: 0, stopped: 1, sealing: 2, sealed: 2, handoff: 3, second: 3, quiz: 4, done: 4 };
 
 function renderChrome() {
   document.documentElement.lang = lang;
+  els.app.classList.toggle("is-movie", s.phase === "movie");
   els.title.textContent = t.title;
   els.lang.textContent = t.langToggle;
   els.lang.setAttribute("lang", lang === "ja" ? "en" : "ja");
@@ -533,6 +536,9 @@ function renderActions() {
       break;
     case "done":
       nodes = [button(a.again, restart, { primary: false }), button(a.open, null, { href: "https://ato.run/" })];
+      break;
+    case "movie":
+      nodes = [h("button", { type: "button", class: "quiet-button skip-button", onclick: () => movieSkip.abort() }, a.skip)];
       break;
     default:
       nodes = [];
@@ -750,6 +756,33 @@ els.lang.addEventListener("click", () => {
   render();
 });
 
+// The first ten seconds are watched, not touched. `?movie=0` starts straight
+// at the board, for hosts that already played the concept clip; "Start again"
+// does the same.
+let movieSkip = new AbortController();
+
+async function startMovie() {
+  s.phase = "movie";
+  movieSkip = new AbortController();
+  renderChrome();
+  setCaption("");
+  renderActions();
+  notify("ato-capsule-demo:step", { phase: "movie", step: 0 });
+  await playMovie({
+    stage: els.stage,
+    lines: t.movie,
+    ref: `${(await computeRef(new Array(CELLS).fill(0), 0)).slice(0, 12)}…`,
+    reduceMotion: reduceMotion.matches,
+    signal: movieSkip.signal,
+  });
+  if (s.phase !== "movie") return;
+  s.phase = "work";
+  notify("ato-capsule-demo:step", { phase: "work", step: 1 });
+  render();
+  animate(els.stage, [{ opacity: 0 }, { opacity: 1 }], 600, "ease-out");
+}
+
 applySealProperties(document.documentElement);
-render();
 notify("ato-capsule-demo:ready");
+if (new URLSearchParams(location.search).get("movie") === "0") render();
+else startMovie();

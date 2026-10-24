@@ -182,6 +182,7 @@ code {
 }
 
 .actions {
+  position: relative;
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -838,4 +839,173 @@ code {
   .continuation {
     animation: none;
   }
+}
+
+/* Concept movie ----------------------------------------------------------- */
+
+.app.is-movie .steps,
+.app.is-movie .caption {
+  visibility: hidden;
+}
+
+.movie {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.movie-svg {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  overflow: visible;
+}
+
+.movie-line {
+  margin: 0;
+  min-height: 1.6em;
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.movie-svg .m-head,
+.movie-svg .m-square,
+.movie-svg .m-capsule,
+.movie-svg .m-key {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.movie-svg .m-line,
+.movie-svg .m-branch,
+.movie-svg .m-ring {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+
+.movie-svg .m-line {
+  stroke: var(--seal-ring);
+  stroke-width: 4;
+}
+
+.movie-svg .m-head {
+  fill: var(--seal-ring);
+}
+
+.movie-svg .m-continuation {
+  fill: none;
+  stroke: var(--seal-ring);
+  stroke-width: 2;
+  stroke-dasharray: 6 9;
+  opacity: 0;
+}
+
+.movie-svg .m-square,
+.movie-svg .m-key,
+.movie-svg .m-tether,
+.movie-svg .m-tray,
+.movie-svg .m-capsule,
+.movie-svg .m-capsule-ref,
+.movie-svg .m-run {
+  opacity: 0;
+}
+
+.movie-svg .p1 {
+  fill: var(--paint-1);
+  stroke: var(--paint-1);
+}
+
+.movie-svg .p2 {
+  fill: var(--paint-2);
+  stroke: var(--paint-2);
+}
+
+.movie-svg .p3 {
+  fill: var(--paint-3);
+  stroke: var(--paint-3);
+}
+
+.movie-svg .m-branch {
+  fill: none;
+  stroke-width: 3;
+}
+
+.movie-svg .m-tether {
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 4;
+}
+
+.movie-svg .m-key {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.movie-svg .m-tray rect {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-dasharray: 5 5;
+}
+
+.movie-svg text {
+  font-family: inherit;
+  font-size: 14px;
+  fill: var(--seal-binding);
+}
+
+.movie-svg .m-capsule-body {
+  fill: var(--seal-capsule);
+}
+
+.movie-svg .m-mini {
+  fill: rgba(255, 255, 255, 0.16);
+  stroke: none;
+}
+
+.movie-svg .m-mini.p1 {
+  fill: var(--paint-1);
+}
+
+.movie-svg .m-mini.p2 {
+  fill: var(--paint-2);
+}
+
+.movie-svg .m-mini.p3 {
+  fill: var(--paint-3);
+}
+
+.movie-svg .m-capsule-label {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  fill: var(--seal-capsule-ink);
+  opacity: 0.7;
+}
+
+.movie-svg .m-capsule-ref {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  fill: var(--seal-capsule-ink);
+}
+
+.movie-svg .m-ring {
+  stroke: var(--seal-ring);
+  stroke-width: 3;
+}
+
+.movie-svg .m-run circle {
+  fill: var(--surface);
+  stroke: var(--ink-2);
+  stroke-width: 2;
+}
+
+.skip-button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }

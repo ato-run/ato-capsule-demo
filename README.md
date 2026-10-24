@@ -16,7 +16,21 @@ python3 -m http.server 5391
 open http://127.0.0.1:5391/
 ```
 
-`?lang=ja` or `?lang=en` overrides the browser language.
+`?lang=ja` or `?lang=en` overrides the browser language. `?movie=0` skips the
+opening movie (for hosts that already played the concept clip).
+
+## Opening movie
+
+The first ten seconds are a concept movie the viewer only watches: work in
+motion → it stops, with the way forward still there → the key comes out and
+the rest is sealed into a Capsule → two Runs leave from the unchanged Capsule.
+Its last frame is the demo's first screen. A small Skip button is the only
+control while it plays; "Start again" goes straight to the board.
+
+It is drawn in the page (SVG + Web Animations) rather than shipped as a video,
+because Ato's static web delivery does not accept video media types. The beat
+timings are exported as `MOVIE` from `movie.js` so a Remotion clip can follow
+the same timeline.
 
 ## What the demo shows
 
@@ -36,7 +50,7 @@ a frozen copy, and each Run starts from its own copy.
 
 `seal.js` is the single definition of the seal's colours, durations and
 easing. The demo reads it at runtime; the Remotion clips should import the
-same file (`ms * fps / 1000` for frames, `Easing.bezier(...SEAL.easing.fold)`
+same files (`ms * fps / 1000` for frames, `Easing.bezier(...SEAL.easing.fold)`
 for curves) so the clip and the demo cannot drift apart.
 
 ## Embedding
@@ -47,7 +61,7 @@ The page posts these messages to its parent frame (FrameTrail or a plain
 | `type` | Extra fields |
 |---|---|
 | `ato-capsule-demo:ready` | |
-| `ato-capsule-demo:step` | `phase`, `step` (1–5) |
+| `ato-capsule-demo:step` | `phase`, `step` (0 = movie, 1–5) |
 | `ato-capsule-demo:answer` | `answer` (0–2), `correct` |
 | `ato-capsule-demo:complete` | `answer`, `correct` |
 
