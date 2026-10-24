@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Capsule Demo</title>
+    <meta name="description" content="Stop your work, seal it as a Capsule, and let someone else resume from exactly that point." />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="top">
+        <span class="brand">ato</span>
+        <h1 class="title" id="title"></h1>
+        <button type="button" class="quiet-button" id="lang"></button>
+      </header>
+      <ol class="steps" id="steps"></ol>
+      <p class="caption" id="caption" aria-live="polite"></p>
+      <main class="stage" id="stage"></main>
+      <div class="actions" id="actions"></div>
+    </div>
+    <noscript>This demo needs JavaScript.</noscript>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
